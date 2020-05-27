@@ -20,6 +20,7 @@ const decisionDebug = settings.decisionDebug;
 const searchDebug = settings.searchDebug;
 const conmsg = settings.conmsg;
 const ignorebot = settings.conmsg;
+const suffix = settings.suffix;
 //End of Settings
 
 const options = {
@@ -101,7 +102,7 @@ function mensaje (channel, tags, msg, self) {
 
 
   const comando = msg.trim().toLowerCase();
-  if(comando === '!hola') {
+  if(comando === `${suffix}hola`) {
     comandos(comando);
     if (chatOutput){client.say(channel, `Hola! @${tags.username}`);}
     console.log(`* ${tags.username} ha saludado!`);
@@ -135,7 +136,7 @@ function mensaje (channel, tags, msg, self) {
     })
   }
 
-  if (comando.startsWith('!play ')) {
+  if (comando.startsWith(`${suffix}play `)) {
     comandos(comando);
     var busqueda = comando.substr(6);
     if (busqueda == '' || busqueda == ' ') {

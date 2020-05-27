@@ -12,8 +12,9 @@ const chatOutput = true; //Enables or disable the bot output on the chat.
 const debugOutput = false; //Enables or disable the bot debug output on console.
 const decisionDebug = false; //Enables or disable the bot debug output on console related to the decisions when bot returns multiple results.
 const searchDebug = false; //Enables or disable the bot debug output on console related to the file search results.
-const conmsg = [`Greetings, ${botUsername} is connected, created by @Harunoki__48.`, `To add a file to the queue use the command "!play" then the name of the file.`] //Set startup messages to be send when connected.
-const ignorebot = true;
+const conmsg = [`Greetings, ${botUsername} is connected, created by @Harunoki__48.`, `To add a file to the queue use the command "${suffix}play" then the name of the file.`] //Set startup messages to be send when connected.
+const ignorebot = true;,
+const suffix = '!';
 //End of Settings
 
 module.exports={
@@ -27,5 +28,6 @@ module.exports={
   decisionDebug,
   searchDebug,
   conmsg,
-  ignorebot
+  ignorebot,
+  suffix
 }
