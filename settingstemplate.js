@@ -1,3 +1,5 @@
+//Fill the configuration file and then rename this file to settings.js
+
 //Settings
 //Media player executable paths, only leave one of both uncommented. (With "//" at the beggining of the line)
 const mp = "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"; //Media Player Classic.
