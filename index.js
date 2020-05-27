@@ -1,16 +1,16 @@
+const settings = require('./settings'); //import settings
 //Settings
-//Media player executable paths, only leave one of both uncommented. (With "//" at the beggining of the line)
-const mp = "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"; //Media Player Classic.
-//const mp = "C:\\Program Files\\DAUM\\PotPlayer\\PotPlayerMini64.exe"; //PotPlayer.
-const mdir = "C:\\Users\\Roger\\Videos\\"; //Media directory. (Where the files are stored)
-const channelname = 'TheMisterDeku'; //Twitch.tv channel name.
-const botUsername = 'H48Bot' //Twitch bot account username.
-const oauthpass = 'oauth:1niukiru6qiy86cfvgzmjla3ed74lo' //Generate oauthpass here: https://twitchapps.com/tmi/
-const chatOutput = true; //Enables or disable the bot output on the chat.
-const debugOutput = false; //Enables or disable the bot debug output on console.
-const decisionDebug = false; //Enables or disable the bot debug output on console related to the decisions when bot returns multiple results.
-const searchDebug = false; //Enables or disable the bot debug output on console related to the file search results.
-const conmsg = [`Buenas, ${botUsername} esta conectado, creado por @Harunoki__48.`, `Para añadir una cancion a la cola utilizar el comando "!play" seguido del nombre del anime.`] //Set startup messages to be send when connected.
+const mp = settings.mp;
+const mdir = settings.mdir;
+const channelname = settings.channelname;
+const botUsername = settings.botUsername;
+const oauthpass = settings.oauthpass
+const chatOutput = settings.chatOutput;
+const debugOutput = settings.debugOutput;
+const decisionDebug = settings.decisionDebug;
+const searchDebug = settings.searchDebug;
+const conmsg = settings.conmsg;
+const ignorebot = settings.conmsg;
 //End of Settings
 
 const tmi = require('tmi.js');
@@ -88,10 +88,10 @@ function conectado (address, port) {
 };
 
 function mensaje (channel, tags, msg, self) {
-  if(self) {return;} //Ignora los mensajes propios
-  if (tags.username == "h48bot") {
+  if (ignorebot){if(self) {return;} //Ignora los mensajes propios
+  if (tags.username == botUsername.toLowerCase()) {
     return;
-  };
+  };}
 
   function comandos(comando){
     console.log(`* Comando: ${comando}`);
