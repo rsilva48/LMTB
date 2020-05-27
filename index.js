@@ -6,9 +6,8 @@ var songnames = [];
 var songsjson = [];
 var decisiones = [];
 
-
-const settings = require(process.cwd() + '/settings.js'); //import settings
 //Settings
+const settings = require(process.cwd() + '/settings.js'); //import settings.js
 const mp = settings.mp;
 const mdirs = settings.mdirs;
 const channelname = settings.channelname;
@@ -23,8 +22,24 @@ const ignorebot = settings.conmsg;
 const suffix = settings.suffix;
 const testcmnd = settings.testcmnd;
 const testresponse = settings.testresponse;
+const selfilesext = settings.selfilesext;
 //End of Settings
 
+//File Extensions
+var filesext = []
+const vidext = ['.mp4', '.mkv', '.flv', '.webm','.avi','.wmv','.mgp','.mpeg'];
+const audext = ['.mp3', '.mka', '.flac', '.wav', '.aac', '.ogg', '.mp2', '.ac3'];
+if (selfilesext === 'all'){
+  filesext = vidext.concat(audext);
+} else if (selfilesext === 'audio') {
+  filesext = audext;
+} else if (selfilesext === 'video'){
+  filesext = vidext
+} else {
+  filesext =[]
+}
+
+//TMI Settings
 const options = {
   options: {
     debug: debugOutput,
@@ -40,6 +55,7 @@ const options = {
   channels: [channelname],
 };
 
+//Create TMI Client
 const client = new tmi.client(options);
 
 //Scans each Media Directory
@@ -51,21 +67,27 @@ mdirs.forEach(function(mdir){
     var i=0;
     archivos.forEach(function (archivo){
       if (archivo.substr(-4).startsWith('.'))
-      {songfiles.push(archivo);
-        var ext = path.extname(archivo);
-        var basesong = path.basename(archivo, ext);
-        songnames.push(basesong);
-        if(debugOutput){console.log(`[${i+1}]. ${basesong}`);}
-        var songjson = {
-          id: i,
-          name: basesong,
-          extension: ext,
-          dir: mdir
-        };
-        songsjson.push(songjson);
-        if (searchDebug){console.log('json:');
-        console.log(songjson);}
-      i+=1;}
+      {
+        filesext.forEach(function(searchext){
+          var ext = path.extname(archivo);
+          var basesong = path.basename(archivo, ext);
+          if (searchext == ext){
+            songfiles.push(archivo);
+            if(debugOutput){console.log(`[${i+1}]. ${basesong}`);}
+            var songjson = {
+              id: i,
+              name: basesong,
+              extension: ext,
+              dir: mdir
+            };
+            songsjson.push(songjson);
+            if (searchDebug){console.log('json:');
+            console.log(songjson);}
+            songnames.push(basesong);
+            i+=1;
+          }
+        })
+      }
     }
   )
   if(searchDebug){console.log(songsjson);}
@@ -73,7 +95,7 @@ mdirs.forEach(function(mdir){
 })
 
 
-
+//Add selected file to the player queue
 function addtoqueue (filejson) {
   var { exec } = require("child_process");
   if (path.basename(mp) == 'mpc-hc64.exe' || path.basename(mp) == 'mpc-hc.exe')
@@ -89,6 +111,7 @@ client.on('message', mensaje);
 client.on('connected', conectado);
 
 client.connect();
+
 
 function conectado (address, port) {
   conmsg.forEach(function(msg){
