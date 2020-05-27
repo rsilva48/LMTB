@@ -7,7 +7,7 @@ Supported players: MPC-HC and PotPlayer.
 
 ### Downloading releases
 
-* Download the release for your OS here: https://github.com/rsilva48/LocalMediaTwitchBot/releases/latest.
+* Download the release for your OS here: https://github.com/rsilva48/LocalMediaTwitchBot/releases/latest/.
 
 * Extract the .zip file and modify **settings.js**.
 
@@ -45,6 +45,8 @@ Example:
 
 ## Credits
 
-* This project use tmi.js: https://tmijs.com.
+* This project use **tmi.js**: https://tmijs.com/.
 
 * Twitch Chatbot Documentation: https://dev.twitch.tv/docs/irc/.
+
+* Binaries created using **pkg**: https://github.com/vercel/pkg/.
