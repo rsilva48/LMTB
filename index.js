@@ -1,15 +1,20 @@
-const mp = "C:\\Program Files\\MPC-HC\\mpc-hc64.exe";
-//const mp = "C:\\Program Files\\DAUM\\PotPlayer\\PotPlayerMini64.exe";
-const mdir = "C:\\Users\\Roger\\Videos\\";
-const channelname = 'TheMisterDeku'
+//Settings
+//Media player executable paths, only leave one of both uncommented. (With "//" at the beggining of the line)
+const mp = "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"; //Media Player Classic.
+//const mp = "C:\\Program Files\\DAUM\\PotPlayer\\PotPlayerMini64.exe"; //PotPlayer.
+const mdir = "C:\\Users\\Roger\\Videos\\"; //Media directory. (Where the files are stored)
+const channelname = 'TheMisterDeku'; //Twitch.tv channel name.
+const botUsername = 'H48Bot' //Twitch bot account username.
+const oauthpass = 'oauth:1niukiru6qiy86cfvgzmjla3ed74lo' //Generate oauthpass here: https://twitchapps.com/tmi/
+const chatOutput = true; //Enables or disable the bot output on the chat.
+const debugOutput = false; //Enables or disable the bot debug output on console.
+const decisionDebug = false; //Enables or disable the bot debug output on console related to the decisions when bot returns multiple results.
+const searchDebug = false; //Enables or disable the bot debug output on console related to the file search results.
+//End of Settings
+
 const tmi = require('tmi.js');
 const path = require('path');
 const fs = require('fs');
-const miniSearch = require('minisearch');
-const chatOutput = true;
-const debugOutput = true;
-const decisionDebug = false;
-const searchDebug = true;
 var songfiles = [];
 var songnames = [];
 var songsjson = [];
@@ -24,8 +29,8 @@ const options = {
     reconnect: true,
   },
   identity:{
-    username: 'H48Bot',
-    password: 'oauth:1niukiru6qiy86cfvgzmjla3ed74lo'
+    username: botUsername,
+    password: oauthpass
   },
   channels: [channelname],
 };
@@ -35,7 +40,7 @@ const client = new tmi.client(options);
 fs.readdir(mdir, function (err, archivos){
   if (err)
   {return console.log('Error al escanear el directorio' + err);}
-  console.log('Lista de archivos:')
+  if(debugOutput){console.log('Lista de archivos:')}
   var i=0;
   archivos.forEach(function (archivo){
     if (archivo.substr(-4).startsWith('.'))
@@ -43,27 +48,20 @@ fs.readdir(mdir, function (err, archivos){
       var ext = path.extname(archivo);
       var basesong = path.basename(archivo, ext);
       songnames.push(basesong);
-      console.log(`[${i+1}]. ${basesong}`);
-      var songjson = {
+      if(debugOutput){console.log(`[${i+1}]. ${basesong}`);}
+      if(searchDebug){var songjson = {
         id: i+1,
         nombre: basesong,
         extension: ext,
       };
-      songsjson.push(songjson);
-      console.log('json:');
-      console.log(songjson);
+      songsjson.push(songjson);}
+      if (searchDebug){console.log('json:');
+      console.log(songjson);}
     i+=1;}
   }
 )
-console.log(songsjson);
+if(searchDebug){console.log(songsjson);}
 });
-
-var minibusqueda = new miniSearch ({
-  fields: ['nombre'],
-  storeFields: ['id','nombre','extension']
-});
-
-minibusqueda.addAll(songsjson);
 
 
 function addtoqueue (filename) {
@@ -144,15 +142,13 @@ function mensaje (channel, tags, msg, self) {
     }
 
     if (searchDebug){songnames.forEach(function(song){
-      console.log(song)
-      console.log(song.includes(busqueda))
-    })}
+      console.log(song.toLowerCase())
+      console.log(song.toLowerCase().includes(busqueda))
+    })
+  }
 
-    var miniresultados = minibusqueda.search(busqueda);
-    console.log('Resultados MiniSearch:');
-    console.log(miniresultados);
 
-    var resultados = songfiles.filter(function (archivo) { return archivo.includes(busqueda);})
+    var resultados = songfiles.filter(function (archivo) { return archivo.toLowerCase().includes(busqueda);})
     console.log('\n* Resultados:')
     console.log(resultados)
 

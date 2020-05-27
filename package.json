@@ -9,7 +9,6 @@
   "author": "Harunoki__48",
   "license": "ISC",
   "dependencies": {
-    "minisearch": "^2.3.1",
     "tmi.js": "^1.5.0"
   }
 }
