@@ -10,7 +10,7 @@ var decisiones = [];
 const settings = require(process.cwd() + '/settings.js'); //import settings
 //Settings
 const mp = settings.mp;
-const mdir = settings.mdir;
+const mdirs = settings.mdirs;
 const channelname = settings.channelname;
 const botUsername = settings.botUsername;
 const oauthpass = settings.oauthpass
@@ -42,41 +42,46 @@ const options = {
 
 const client = new tmi.client(options);
 
-fs.readdir(mdir, function (err, archivos){
-  if (err)
-  {return console.log('Error al escanear el directorio' + err);}
-  if(debugOutput){console.log('Lista de archivos:')}
-  var i=0;
-  archivos.forEach(function (archivo){
-    if (archivo.substr(-4).startsWith('.'))
-    {songfiles.push(archivo);
-      var ext = path.extname(archivo);
-      var basesong = path.basename(archivo, ext);
-      songnames.push(basesong);
-      if(debugOutput){console.log(`[${i+1}]. ${basesong}`);}
-      if(searchDebug){var songjson = {
-        id: i+1,
-        nombre: basesong,
-        extension: ext,
-      };
-      songsjson.push(songjson);}
-      if (searchDebug){console.log('json:');
-      console.log(songjson);}
-    i+=1;}
-  }
-)
-if(searchDebug){console.log(songsjson);}
-});
+//Scans each Media Directory
+mdirs.forEach(function(mdir){
+  fs.readdir(mdir, function (err, archivos){
+    if (err)
+    {return console.log('Error al escanear el directorio' + err);}
+    if(debugOutput){console.log('Lista de archivos:')}
+    var i=0;
+    archivos.forEach(function (archivo){
+      if (archivo.substr(-4).startsWith('.'))
+      {songfiles.push(archivo);
+        var ext = path.extname(archivo);
+        var basesong = path.basename(archivo, ext);
+        songnames.push(basesong);
+        if(debugOutput){console.log(`[${i+1}]. ${basesong}`);}
+        var songjson = {
+          id: i,
+          name: basesong,
+          extension: ext,
+          dir: mdir
+        };
+        songsjson.push(songjson);
+        if (searchDebug){console.log('json:');
+        console.log(songjson);}
+      i+=1;}
+    }
+  )
+  if(searchDebug){console.log(songsjson);}
+  });
+})
 
 
-function addtoqueue (filename) {
+
+function addtoqueue (filejson) {
   var { exec } = require("child_process");
   if (path.basename(mp) == 'mpc-hc64.exe' || path.basename(mp) == 'mpc-hc.exe')
-    {console.log(`* "${mp}" "${mdir}${filename}" /add /fullscreen`);
-    exec(`"${mp}" "${mdir}${filename}" /add /fullscreen`);}
+    {console.log(`* "${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add /fullscreen`);
+    exec(`"${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add /fullscreen`);}
   if (path.basename(mp) == 'PotPlayerMini64.exe' || path.basename(mp) == 'PotPlayerMini.exe')
-    {console.log(`* "${mp}" "${mdir}${filename}" /add`);
-    exec(`"${mp}" "${mdir}${filename}" /add`);}
+    {console.log(`* "${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add`);
+    exec(`"${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add`);}
 };
 
 
@@ -122,7 +127,11 @@ function mensaje (channel, tags, msg, self) {
       {decision.opciones.forEach(function(elecciones, j){
         if (decisionDebug){console.log(j + ' ' + elecciones)}
         if (comando == j+1){
-          addtoqueue(elecciones);
+          songsjson.forEach(function(song){
+            if (song.name+song.extension == elecciones){
+              addtoqueue(song);
+            }
+          })
           var ext = path.extname(elecciones);
           if (chatOutput){client.say(channel, `@${tags.username} ha añadido ${path.basename(elecciones, ext)} a la cola.`);}
           console.log(`* ${tags.username} añadio ${path.basename(elecciones, ext)}" a la cola.`);
@@ -166,7 +175,11 @@ function mensaje (channel, tags, msg, self) {
     }
 
     if (resultados.length == 1) {
-    addtoqueue(resultados[0]);
+      songsjson.forEach(function(song){
+        if (song.name+song.extension == resultados[0]){
+          addtoqueue(song);
+        }
+      })
     var ext = path.extname(resultados[0]);
     if (chatOutput){client.say(channel, `@${tags.username} ha añadido ${path.basename(resultados[0], ext)} a la cola.`);}
     console.log(`* ${tags.username} añadio ${path.basename(resultados[0], ext)}" a la cola.`);
