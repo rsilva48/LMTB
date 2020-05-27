@@ -35,10 +35,12 @@ node index.js
 ### Commands
 
 * **!play** - To add a file to the queue use the command followed by the name of the file.
+* **!ping** - Test command that returns pong! to the chat, can be changed in settings.js file.
 
 Example:
 ```
 !play some song
+!ping //Returns pong! @username
 ```
 
 ## Credits
