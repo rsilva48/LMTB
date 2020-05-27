@@ -39,6 +39,7 @@ if (selfilesext === 'all'){
   filesext =[]
 }
 
+
 //TMI Settings
 const options = {
   options: {
@@ -94,16 +95,18 @@ mdirs.forEach(function(mdir){
   });
 })
 
-
 //Add selected file to the player queue
 function addtoqueue (filejson) {
+  //Media Player Commands
+  var pp = `"${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add`;
+  var mpc = `"${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add /fullscreen`;
   var { exec } = require("child_process");
   if (path.basename(mp) == 'mpc-hc64.exe' || path.basename(mp) == 'mpc-hc.exe')
-    {console.log(`* "${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add /fullscreen`);
-    exec(`"${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add /fullscreen`);}
+    {console.log(`* ${mpc}`);
+    exec(mpc);}
   if (path.basename(mp) == 'PotPlayerMini64.exe' || path.basename(mp) == 'PotPlayerMini.exe')
-    {console.log(`* "${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add`);
-    exec(`"${mp}" "${filejson.dir}${filejson.name}${filejson.extension}" /add`);}
+    {console.log(`* ${pp}`);
+    exec(pp);}
 };
 
 
