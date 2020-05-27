@@ -13,9 +13,9 @@ const debugOutput = false; //Enables or disable the bot debug output on console.
 const decisionDebug = false; //Enables or disable the bot debug output on console related to the decisions when bot returns multiple results.
 const searchDebug = false; //Enables or disable the bot debug output on console related to the file search results.
 const ignorebot = true;,
-const suffix = '!';
-const testcmnd = 'ping';
-const testresponse = 'pong!';
+const suffix = '!'; //Change the suffix for the commands, by defaut they start with!
+const testcmnd = 'ping'; //Change the test command
+const testresponse = 'pong!'; //Change the message send as a response to the test command
 const conmsg = [`Greetings, ${botUsername} is connected, created by @Harunoki__48.`, `To add a file to the queue use the command "${suffix}play" then the name of the file.`] //Set startup messages to be send when connected.
 //End of Settings
 
