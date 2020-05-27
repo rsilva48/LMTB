@@ -40,3 +40,9 @@ Example:
 ```
 !play some song
 ```
+
+## Credits
+
+* This project use tmi.js: https://tmijs.com.
+
+* Twitch Chatbot Documentation: https://dev.twitch.tv/docs/irc/.
