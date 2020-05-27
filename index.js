@@ -22,7 +22,7 @@ var decisiones = [];
 
 const options = {
   options: {
-    debug: true,
+    debug: debugOutput,
   },
   connection: {
     cluster: 'aws',
