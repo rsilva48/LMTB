@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Twitch Bot that adds to a playlist or player queue, files that are locally stored on a drive.",
   "main": "index.js",
-  "bin": "bin.js",
+  "bin": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
