@@ -1,8 +1,9 @@
 {
   "name": "localmediatwitchbot",
-  "version": "1.0.0",
-  "description": "Bot thats add local media files to the queue of a local media player.",
+  "version": "0.1.0",
+  "description": "Twitch Bot that adds to a playlist or player queue, files that are locally stored on a drive.",
   "main": "index.js",
+  "bin": "bin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

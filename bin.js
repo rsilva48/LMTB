@@ -6,8 +6,7 @@ var songnames = [];
 var songsjson = [];
 var decisiones = [];
 
-
-const settings = require('./settings'); //import settings
+const settings = require(process.cwd() + '/settings.js'); //import settings
 //Settings
 const mp = settings.mp;
 const mdir = settings.mdir;
