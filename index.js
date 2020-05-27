@@ -21,6 +21,8 @@ const searchDebug = settings.searchDebug;
 const conmsg = settings.conmsg;
 const ignorebot = settings.conmsg;
 const suffix = settings.suffix;
+const testcmnd = settings.testcmnd;
+const testresponse = settings.testresponse;
 //End of Settings
 
 const options = {
@@ -90,7 +92,7 @@ function conectado (address, port) {
 };
 
 function mensaje (channel, tags, msg, self) {
-  if (ignorebot){if(self) {return;} //Ignora los mensajes propios
+  if (ignorebot){if(self) {return;} //Ignora bot messages
   if (tags.username == botUsername.toLowerCase()) {
     return;
   };}
@@ -102,10 +104,12 @@ function mensaje (channel, tags, msg, self) {
 
 
   const comando = msg.trim().toLowerCase();
-  if(comando === `${suffix}hola`) {
+
+  //Test Command
+  if(comando === `${suffix}${testcmnd}`) {
     comandos(comando);
-    if (chatOutput){client.say(channel, `Hola! @${tags.username}`);}
-    console.log(`* ${tags.username} ha saludado!`);
+    if (chatOutput){client.say(channel, `${testresponse} @${tags.username}`);}
+    console.log(`* ${tags.username} ${testcmnd} ${testresponse}`);
   };
 
   if (decisiones.length >= 1){
