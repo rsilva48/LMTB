@@ -1,4 +1,4 @@
-//Fill the configuration file and then rename this file to settings.js
+//Edit the configuration file and rename this file to settings.js if it have other name.
 
 //Settings
 //Media player executable paths, only leave one of both uncommented. (With "//" at the beggining of the line)
