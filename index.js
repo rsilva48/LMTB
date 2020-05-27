@@ -10,6 +10,7 @@ const chatOutput = true; //Enables or disable the bot output on the chat.
 const debugOutput = false; //Enables or disable the bot debug output on console.
 const decisionDebug = false; //Enables or disable the bot debug output on console related to the decisions when bot returns multiple results.
 const searchDebug = false; //Enables or disable the bot debug output on console related to the file search results.
+const conmsg = [`Buenas, ${botUsername} esta conectado, creado por @Harunoki__48.`, `Para añadir una cancion a la cola utilizar el comando "!play" seguido del nombre del anime.`] //Set startup messages to be send when connected.
 //End of Settings
 
 const tmi = require('tmi.js');
@@ -81,8 +82,9 @@ client.on('connected', conectado);
 client.connect();
 
 function conectado (address, port) {
-  if (chatOutput){client.action(channelname, 'Buenas, H48Bot esta conectado, creado por @Harunoki__48.');
-  client.action(channelname, 'Para añadir una cancion a la cola utilizar el comando "!play" seguido del nombre del anime.');}
+  conmsg.forEach(function(msg){
+    if (chatOutput){client.action(channelname, msg);}
+  })
 };
 
 function mensaje (channel, tags, msg, self) {
