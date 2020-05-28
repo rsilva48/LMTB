@@ -1,7 +1,7 @@
 {
   "name": "localmediatwitchbot",
   "version": "0.3.3",
-  "description": "Twitch Bot that adds to a playlist or player queue, files that are locally stored on a drive.",
+  "description": "Twitch Bot that adds files that are locally stored on a drive to a media player playlist or queue.",
   "main": "index.js",
   "bin": "index.js",
   "scripts": {

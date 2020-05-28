@@ -19,7 +19,7 @@ const decisionDebug = settings.decisionDebug;
 const searchDebug = settings.searchDebug;
 const conmsg = settings.conmsg;
 const ignorebot = settings.conmsg;
-const suffix = settings.suffix;
+const prefix = settings.prefix;
 const testcmnd = settings.testcmnd;
 const testresponse = settings.testresponse;
 const selfilesext = settings.selfilesext;
@@ -195,14 +195,14 @@ function mensaje (channel, tags, msg, self) {
     }}
 
   //Test Command
-  if(comando === `${suffix}${testcmnd}`) {
+  if(comando === `${prefix}${testcmnd}`) {
     comandos(comando);
     if (chatOutput && conOutput){client.say(channel, `${testresponse} @${tags.username}`);}
     console.log(`* ${tags.username} ${testcmnd} ${testresponse}`);
   };
 
   //Decision selection
-  if (decisiones.length >= 1 && !comando.startsWith(`${suffix}play `)){
+  if (decisiones.length >= 1 && !comando.startsWith(`${prefix}play `)){
     if (decisionDebug) {console.log('\n* Decisiones length:');
     console.log(decisiones.length);
     console.log('Seleccion:')}
@@ -241,7 +241,7 @@ function mensaje (channel, tags, msg, self) {
       })}
 
     })
-  } else if (comando.startsWith(`${suffix}play `)) {
+  } else if (comando.startsWith(`${prefix}play `)) {
     comandos(comando);
     // Pending selection check
     if (decisiones.length >= 1){

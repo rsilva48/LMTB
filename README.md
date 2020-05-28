@@ -1,5 +1,5 @@
-# LocalMediaTwitchBot
-Twitch Bot that adds to a playlist or player queue, files that are locally stored on a drive.
+# Local Media Twitch Bot
+Twitch Bot that adds files that are locally stored on a drive to a media player playlist or queue.
 
 Supported players: MPC-HC and PotPlayer.
 
@@ -7,7 +7,10 @@ Supported players: MPC-HC and PotPlayer.
 
 ### Downloading releases
 
-* Download the release for your OS here: https://github.com/rsilva48/LocalMediaTwitchBot/releases/latest/.
+* Download the latest release here: https://github.com/Harunoki/LocalMediaTwitchBot/releases/latest/ or selecting your platform below:
+  * **Windows**: https://github.com/Harunoki/LocalMediaTwitchBot/releases/latest/download/Win.zip
+  * **Linux**: https://github.com/Harunoki/LocalMediaTwitchBot/releases/latest/download/Linux.zip
+  * **macOS**: https://github.com/Harunoki/LocalMediaTwitchBot/releases/latest/download/macOS.zip
 
 * Extract the .zip file and modify **settings.js**.
 
