@@ -67,11 +67,11 @@ mdirs.forEach(function(mdir){
     if(debugOutput){console.log('Lista de archivos:')}
     var i=0;
     archivos.forEach(function (archivo.toLowerCase()){
-      if (archivo.substr(-4).startsWith('.'))
+      var ext = path.extname(archivo);
+      var basesong = path.basename(archivo, ext);
+      if (ext.startsWith('.'))
       {
         filesext.forEach(function(searchext.toLowerCase()){
-          var ext = path.extname(archivo);
-          var basesong = path.basename(archivo, ext);
           if (searchext == ext){
             songfiles.push(archivo);
             if(debugOutput){console.log(`[${i+1}]. ${basesong}`);}
