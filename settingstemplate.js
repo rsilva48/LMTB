@@ -15,13 +15,14 @@ const chatOutput = true; //Enables or disable the bot output on the chat.
 const debugOutput = false; //Enables or disable the bot debug output on console.
 const decisionDebug = false; //Enables or disable the bot debug output on console related to the decisions when bot returns multiple results.
 const searchDebug = false; //Enables or disable the bot debug output on console related to the file search results.
-const ignorebot = true;
+const ignorebot = true; //Enable or disables if the messages sent by the bot are ignored.
+const conOutput = true; //Enable or disables connection messages on chat.
 
 //Personalization
 const suffix = '!'; //Change the suffix for the commands, by defaut they start with!
 const testcmnd = 'ping'; //Change the test command
 const testresponse = 'pong!'; //Change the message send as a response to the test command
-const selfilesext = 'all' //To select which files search, can be: all, audio, video.
+const selfilesext = 'both' //To select which files search, can be: both, audio, video.
 //Set startup messages to be send when connected.
 const conmsg = [`Greetings, ${botUsername} is connected, created by @Harunoki__48.`, `To add a file to the queue use the command "${suffix}play" then the name of the file.`]
 
@@ -41,5 +42,6 @@ module.exports={
   suffix,
   testcmnd,
   testresponse,
-  selfilesext
+  selfilesext,
+  conOutput
 }

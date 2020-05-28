@@ -23,13 +23,14 @@ const suffix = settings.suffix;
 const testcmnd = settings.testcmnd;
 const testresponse = settings.testresponse;
 const selfilesext = settings.selfilesext;
+const conOutput = settings.conOutput;
 //End of Settings
 
 //File Extensions
 var filesext = []
 const vidext = ['.mp4', '.mkv', '.flv', '.webm','.avi','.wmv','.mgp','.mpeg'];
 const audext = ['.mp3', '.mka', '.flac', '.wav', '.aac', '.ogg', '.mp2', '.ac3'];
-if (selfilesext === 'all'){
+if (selfilesext === 'both'){
   filesext = vidext.concat(audext);
 } else if (selfilesext === 'audio') {
   filesext = audext;
@@ -139,7 +140,7 @@ function mensaje (channel, tags, msg, self) {
   //Test Command
   if(comando === `${suffix}${testcmnd}`) {
     comandos(comando);
-    if (chatOutput){client.say(channel, `${testresponse} @${tags.username}`);}
+    if (chatOutput && conOutput){client.say(channel, `${testresponse} @${tags.username}`);}
     console.log(`* ${tags.username} ${testcmnd} ${testresponse}`);
   };
 
