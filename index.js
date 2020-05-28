@@ -123,17 +123,22 @@ function conectado (address, port) {
   })
 };
 
+
+//Message function
 function mensaje (channel, tags, msg, self) {
   if (ignorebot){if(self) {return;} //Ignora bot messages
   if (tags.username == botUsername.toLowerCase()) {
     return;
   };}
 
+  const comando = msg.trim().toLowerCase();
+
+  //Command output function
   function comandos(comando){
     console.log(`* Comando: ${comando}`);
   };
 
-function searchsong() {
+  function searchsong() {
       var busqueda = comando.substr(6);
     if (busqueda == '' || busqueda == ' ') {
       if (chatOutput){client.say(channel, `@${tags.username} no has especificado que deseas reproducir, intenta nuevamente.`);}
@@ -180,7 +185,7 @@ function searchsong() {
     console.log(decisiones)
     console.log('\n* Decisiones length:');
     console.log(decisiones.length);}
-    if (chatOutput){client.say(channel, `@${tags.username} hay varios resultados para  "${busqueda}": ${opciones}\n. Cual desea reproducir?`);}
+    if (chatOutput){client.say(channel, `@${tags.username} hay varios resultados para  "${busqueda}": ${opciones}\n. ¿Cual desea reproducir? Para cancelar la busqueda envíe "0"`);}
     console.log(`* ${tags.username} busco "${busqueda}" con varios resultados.`);
     }
     else {
@@ -189,8 +194,6 @@ function searchsong() {
       }
     }}
 
-  const comando = msg.trim().toLowerCase();
-
   //Test Command
   if(comando === `${suffix}${testcmnd}`) {
     comandos(comando);
@@ -198,14 +201,25 @@ function searchsong() {
     console.log(`* ${tags.username} ${testcmnd} ${testresponse}`);
   };
 
-  if (decisiones.length >= 1){
+  //Decision selection
+  if (decisiones.length >= 1 && !comando.startsWith(`${suffix}play `)){
     if (decisionDebug) {console.log('\n* Decisiones length:');
     console.log(decisiones.length);
     console.log('Seleccion:')}
     decisiones.forEach(function(decision, i){
       if (decisionDebug) {console.log(decision.username);}
-      if (decision.username == tags.username)
-      {decision.opciones.forEach(function(elecciones, j){
+      if (decision.username == tags.username){
+        if (comando == 0){
+          if (chatOutput){client.say(channel, `@${tags.username} has cancelado tu busqueda.`);}
+          console.log(`* ${tags.username} canceló la busqueda.`);
+          if (decisionDebug){console.log('Busqueda');
+          console.log(decision.busqueda)}
+          //Erases the decision once fullfiled
+          decisiones = decisiones.filter(function(value, index, arr){
+            return !(value.busqueda == decision.busqueda && value.username == decision.username);
+          })
+        }
+        decision.opciones.forEach(function(elecciones, j){
         if (decisionDebug){console.log(j + ' ' + elecciones)}
         if (comando == j+1){
           songsjson.forEach(function(song){
@@ -218,9 +232,8 @@ function searchsong() {
           console.log(`* ${tags.username} añadio ${path.basename(elecciones, ext)}" a la cola.`);
           if (decisionDebug){console.log('Busqueda');
           console.log(decision.busqueda)}
+          //Erases the decision once fullfiled
           decisiones = decisiones.filter(function(value, index, arr){
-            if (decisionDebug){console.log('* filter value:');
-            console.log(value.busqueda);}
             return !(value.busqueda == decision.busqueda);
           })
         }
@@ -228,27 +241,26 @@ function searchsong() {
       })}
 
     })
-  }
-
-  if (comando.startsWith(`${suffix}play `)) {
+  } else if (comando.startsWith(`${suffix}play `)) {
     comandos(comando);
     // Pending selection check
     if (decisiones.length >= 1){
       console.log('Pending selection check')
-      decisiones.forEach(function(decision, i){
+      var matches = 0;
+      decisiones.forEach(function(decision){
         if (decision.username == tags.username){
           console.log(`* Pending selection for @${decision.username}:`)
           console.log(`* Pending selections :${decision.opciones}`)
-
+          matches++;
           if (chatOutput){
             client.say(channel, `@${tags.username} Tienes una cancion pendiente por elegir.`);
-            client.say(channel, `@${tags.username} hay varios resultados para  "${decision.busqueda}": ${decision.opcioneschat}\n. Cual desea reproducir?`);
+            client.say(channel, `@${tags.username} hay varios resultados para  "${decision.busqueda}": ${decision.opcioneschat}\n. ¿Cual desea reproducir? Para cancelar la busqueda envíe "0"`);
           }
-        } else {
-          searchsong();
         }
-
       })
+      if (matches == 0){
+        searchsong();
+      }
     } else {
       searchsong();
     }
