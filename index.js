@@ -67,13 +67,13 @@ mdirs.forEach(function(mdir){
     {return console.log('Error al escanear el directorio' + err);}
     if(debugOutput){console.log('Lista de archivos:')}
     var i=0;
-    archivos.forEach(function (archivo.toLowerCase()){
-      var ext = path.extname(archivo);
-      var basesong = path.basename(archivo, ext);
+    archivos.forEach(function (archivo){
+      var ext = path.extname(archivo.toLowerCase());
+      var basesong = path.basename(archivo.toLowerCase(), ext);
       if (ext.startsWith('.'))
       {
-        filesext.forEach(function(searchext.toLowerCase()){
-          if (searchext == ext){
+        filesext.forEach(function(searchext){
+          if (searchext.toLowerCase() == ext){
             songfiles.push(archivo);
             if(debugOutput){console.log(`[${i+1}]. ${basesong}`);}
             var songjson = {
@@ -178,20 +178,24 @@ function mensaje (channel, tags, msg, self) {
 
   if (comando.startsWith(`${suffix}play `)) {
     comandos(comando);
-
+    // Pending selection check
     if (decisiones.length >= 1){
+      console.log('Pending selection check')
       decisiones.forEach(function(decision, i){
         if (decision.username == tags.username){
+          console.log(`Pending selection for @${decision.username}:`)
+          console.log(`Pending selection for @${decision.opciones}`)
+
           if (chatOutput){
             client.say(channel, `@${tags.username} Tienes una cancion pendiente por elegir.`);
             client.say(channel, `@${tags.username} hay varios resultados para  "${decision.busqueda}": ${decision.opciones}\n. Cual desea reproducir?`);
-            return;
           }
+        return;
         }
       })
     }
-
-    var busqueda = comando.substr(6);
+    else {
+      var busqueda = comando.substr(6);
     if (busqueda == '' || busqueda == ' ') {
       if (chatOutput){client.say(channel, `@${tags.username} no has especificado que deseas reproducir, intenta nuevamente.`);}
       console.log(`* ${tags.username} dejo el comando play vacio.`);
@@ -243,7 +247,7 @@ function mensaje (channel, tags, msg, self) {
       if (debugOutput) {
         console.log('Error')
       }
-    }
+    }}
     return;
   }
 };
