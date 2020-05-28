@@ -68,12 +68,12 @@ mdirs.forEach(function(mdir){
     if(debugOutput){console.log('Lista de archivos:')}
     var i=0;
     archivos.forEach(function (archivo){
-      var ext = path.extname(archivo.toLowerCase());
-      var basesong = path.basename(archivo.toLowerCase(), ext);
+      var ext = path.extname(archivo);
+      var basesong = path.basename(archivo, ext);
       if (ext.startsWith('.'))
       {
         filesext.forEach(function(searchext){
-          if (searchext.toLowerCase() == ext){
+          if (searchext.toLowerCase() == ext.toLowerCase()){
             songfiles.push(archivo);
             if(debugOutput){console.log(`[${i+1}]. ${basesong}`);}
             var songjson = {
@@ -183,14 +183,13 @@ function mensaje (channel, tags, msg, self) {
       console.log('Pending selection check')
       decisiones.forEach(function(decision, i){
         if (decision.username == tags.username){
-          console.log(`Pending selection for @${decision.username}:`)
-          console.log(`Pending selection for @${decision.opciones}`)
+          console.log(`* Pending selection for @${decision.username}:`)
+          console.log(`* Pending selections :${decision.opciones}`)
 
           if (chatOutput){
             client.say(channel, `@${tags.username} Tienes una cancion pendiente por elegir.`);
-            client.say(channel, `@${tags.username} hay varios resultados para  "${decision.busqueda}": ${decision.opciones}\n. Cual desea reproducir?`);
+            client.say(channel, `@${tags.username} hay varios resultados para  "${decision.busqueda}": ${decision.opcioneschat}\n. Cual desea reproducir?`);
           }
-        return;
         }
       })
     }
@@ -208,7 +207,6 @@ function mensaje (channel, tags, msg, self) {
     })
   }
 
-
     var resultados = songfiles.filter(function (archivo) { return archivo.toLowerCase().includes(busqueda);})
     console.log('\n* Resultados:')
     console.log(resultados)
@@ -217,14 +215,15 @@ function mensaje (channel, tags, msg, self) {
       if (chatOutput){client.say(channel, `@${tags.username} no se encontraron resultados para "${busqueda}".`);}
       console.log(`* ${tags.username} busco "${busqueda}" sin resultados.`);
     } else if (resultados.length == 1) {
-      songsjson.forEach(function(song){
-        if (song.name+song.extension == resultados[0]){
-          addtoqueue(song);
+      songsjson.forEach(function(songjson){
+        if (songjson.name+songjson.extension == resultados[0]){
+          addtoqueue(songjson);
+          var ext = path.extname(resultados[0]);
+          if (chatOutput){client.say(channel, `@${tags.username} ha añadido ${path.basename(resultados[0], ext)} a la cola.`);}
+          console.log(`* ${tags.username} añadio ${path.basename(resultados[0], ext)}" a la cola.`);
         }
       })
-    var ext = path.extname(resultados[0]);
-    if (chatOutput){client.say(channel, `@${tags.username} ha añadido ${path.basename(resultados[0], ext)} a la cola.`);}
-    console.log(`* ${tags.username} añadio ${path.basename(resultados[0], ext)}" a la cola.`);
+
   } else if (resultados.length > 1) {
       var opciones = '';
       resultados.forEach(function(cancion, i){
@@ -235,6 +234,7 @@ function mensaje (channel, tags, msg, self) {
       'username':`${tags.username}`,
       'opciones':resultados,
       'busqueda':busqueda,
+      'opcioneschat':opciones
     });
     if (decisionDebug){console.log('\n* Decisiones:');
     console.log(decisiones)
