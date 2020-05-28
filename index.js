@@ -66,7 +66,7 @@ mdirs.forEach(function(mdir){
     {return console.log('Error al escanear el directorio' + err);}
     if(debugOutput){console.log('Lista de archivos:')}
     var i=0;
-    archivos.forEach(function (archivo){
+    archivos.forEach(function (archivo.toLowerCase()){
       if (archivo.substr(-4).startsWith('.'))
       {
         filesext.forEach(function(searchext){
