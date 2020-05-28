@@ -133,7 +133,61 @@ function mensaje (channel, tags, msg, self) {
     console.log(`* Comando: ${comando}`);
   };
 
+function searchsong() {
+      var busqueda = comando.substr(6);
+    if (busqueda == '' || busqueda == ' ') {
+      if (chatOutput){client.say(channel, `@${tags.username} no has especificado que deseas reproducir, intenta nuevamente.`);}
+      console.log(`* ${tags.username} dejo el comando play vacio.`);
+      return;
+    }
 
+    if (searchDebug){songnames.forEach(function(song){
+      console.log(song.toLowerCase())
+      console.log(song.toLowerCase().includes(busqueda))
+    })
+  }
+
+    var resultados = songfiles.filter(function (archivo) { return archivo.toLowerCase().includes(busqueda);})
+    console.log('\n* Resultados:')
+    console.log(resultados)
+
+    if (resultados.length == 0 || resultados === undefined) {
+      if (chatOutput){client.say(channel, `@${tags.username} no se encontraron resultados para "${busqueda}".`);}
+      console.log(`* ${tags.username} busco "${busqueda}" sin resultados.`);
+    } else if (resultados.length == 1) {
+      songsjson.forEach(function(songjson){
+        if (songjson.name+songjson.extension == resultados[0]){
+          addtoqueue(songjson);
+          var ext = path.extname(resultados[0]);
+          if (chatOutput){client.say(channel, `@${tags.username} ha añadido ${path.basename(resultados[0], ext)} a la cola.`);}
+          console.log(`* ${tags.username} añadio ${path.basename(resultados[0], ext)}" a la cola.`);
+        }
+      })
+
+  } else if (resultados.length > 1) {
+      var opciones = '';
+      resultados.forEach(function(cancion, i){
+        var ext = path.extname(cancion);
+        opciones += `\n[${i+1}]. ${path.basename(cancion, ext)},`;
+      })
+    decisiones.push({
+      'username':`${tags.username}`,
+      'opciones':resultados,
+      'busqueda':busqueda,
+      'opcioneschat':opciones
+    });
+    if (decisionDebug){console.log('\n* Decisiones:');
+    console.log(decisiones)
+    console.log('\n* Decisiones length:');
+    console.log(decisiones.length);}
+    if (chatOutput){client.say(channel, `@${tags.username} hay varios resultados para  "${busqueda}": ${opciones}\n. Cual desea reproducir?`);}
+    console.log(`* ${tags.username} busco "${busqueda}" con varios resultados.`);
+    }
+    else {
+      if (debugOutput) {
+        console.log('Error')
+      }
+    }}
 
   const comando = msg.trim().toLowerCase();
 
@@ -190,64 +244,17 @@ function mensaje (channel, tags, msg, self) {
             client.say(channel, `@${tags.username} Tienes una cancion pendiente por elegir.`);
             client.say(channel, `@${tags.username} hay varios resultados para  "${decision.busqueda}": ${decision.opcioneschat}\n. Cual desea reproducir?`);
           }
+        } else {
+          searchsong();
         }
+
       })
-    }
-    else {
-      var busqueda = comando.substr(6);
-    if (busqueda == '' || busqueda == ' ') {
-      if (chatOutput){client.say(channel, `@${tags.username} no has especificado que deseas reproducir, intenta nuevamente.`);}
-      console.log(`* ${tags.username} dejo el comando play vacio.`);
-      return;
+    } else {
+      searchsong();
     }
 
-    if (searchDebug){songnames.forEach(function(song){
-      console.log(song.toLowerCase())
-      console.log(song.toLowerCase().includes(busqueda))
-    })
-  }
 
-    var resultados = songfiles.filter(function (archivo) { return archivo.toLowerCase().includes(busqueda);})
-    console.log('\n* Resultados:')
-    console.log(resultados)
 
-    if (resultados.length == 0 || resultados === undefined) {
-      if (chatOutput){client.say(channel, `@${tags.username} no se encontraron resultados para "${busqueda}".`);}
-      console.log(`* ${tags.username} busco "${busqueda}" sin resultados.`);
-    } else if (resultados.length == 1) {
-      songsjson.forEach(function(songjson){
-        if (songjson.name+songjson.extension == resultados[0]){
-          addtoqueue(songjson);
-          var ext = path.extname(resultados[0]);
-          if (chatOutput){client.say(channel, `@${tags.username} ha añadido ${path.basename(resultados[0], ext)} a la cola.`);}
-          console.log(`* ${tags.username} añadio ${path.basename(resultados[0], ext)}" a la cola.`);
-        }
-      })
-
-  } else if (resultados.length > 1) {
-      var opciones = '';
-      resultados.forEach(function(cancion, i){
-        var ext = path.extname(cancion);
-        opciones += `\n[${i+1}]. ${path.basename(cancion, ext)},`;
-      })
-    decisiones.push({
-      'username':`${tags.username}`,
-      'opciones':resultados,
-      'busqueda':busqueda,
-      'opcioneschat':opciones
-    });
-    if (decisionDebug){console.log('\n* Decisiones:');
-    console.log(decisiones)
-    console.log('\n* Decisiones length:');
-    console.log(decisiones.length);}
-    if (chatOutput){client.say(channel, `@${tags.username} hay varios resultados para  "${busqueda}": ${opciones}\n. Cual desea reproducir?`);}
-    console.log(`* ${tags.username} busco "${busqueda}" con varios resultados.`);
-    }
-    else {
-      if (debugOutput) {
-        console.log('Error')
-      }
-    }}
     return;
   }
 };
