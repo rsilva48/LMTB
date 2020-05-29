@@ -234,7 +234,7 @@ function mensaje (channel, tags, msg, self) {
           console.log(decision.busqueda)}
           //Erases the decision once fullfiled
           decisiones = decisiones.filter(function(value, index, arr){
-            return !(value.busqueda == decision.busqueda);
+            return !(value.busqueda == decision.busqueda && value.username == decision.username);
           })
         }
 
