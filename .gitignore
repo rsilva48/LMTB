@@ -1,7 +1,10 @@
-#Setting File
-/settings.js
+#LMTB ignore files
 settings.js
 releases/
+localmediatwitchbot-linux
+localmediatwitchbot-macos
+localmediatwitchbot-win.exe
+
 
 # Logs
 logs
