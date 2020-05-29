@@ -8,9 +8,9 @@ const mp = "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"; //Media Player Classic.
 const mdirs = ["C:\\Users\\Harunoki__48\\Videos\\", "C:\\Users\\Harunoki__48\\Music\\"];
 
 //Bot settings
-const channelname = 'Harunoki__48'; //Twitch.tv channel name.
-const botUsername = 'H48Bot'; //Twitch bot account username.
-const oauthpass = 'oauth:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; //Generate oauthpass here: https://twitchapps.com/tmi/
+const channelname = 'H48Bot'; //Twitch.tv channel name.
+const botUsername = 'H48Bot'; //Twitch bot account username, Create a account for the bot, then use that account to generate oauth
+const oauthpass = 'oauth:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; //Generate oauth here: https://twitchapps.com/tmi/
 const chatOutput = true; //Enables or disable the bot output on the chat.
 const debugOutput = false; //Enables or disable the bot debug output on console.
 const decisionDebug = false; //Enables or disable the bot debug output on console related to the decisions when bot returns multiple results.
