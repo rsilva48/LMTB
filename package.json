@@ -10,6 +10,6 @@
   "author": "Harunoki__48",
   "license": "ISC",
   "dependencies": {
-    "tmi.js": "^1.5.0"
+    "tmi.js": "^1.8.5"
   }
 }
